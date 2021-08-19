@@ -21,7 +21,7 @@ import java.util.Random;
 @Api(tags = "医院设置管理")
 @RestController
 @RequestMapping("/admin/hosp/hospitalSet")
-//@CrossOrigin
+@CrossOrigin
 public class HospitalSetController {
 
     //注入service
@@ -30,8 +30,8 @@ public class HospitalSetController {
 
     // http://localhost:8201/admin/hosp/hospitalSet/findAll
 
-    //1 查询医院设置表所有信息
-    /*@ApiOperation(value = "获取所有医院设置")
+  /*  //1 查询医院设置表所有信息
+    @ApiOperation(value = "获取所有医院设置")
     @GetMapping("findAll")
     public List<HospitalSet> findAllHospitalSet() {
         //调用service的方法
@@ -45,14 +45,14 @@ public class HospitalSetController {
         List<HospitalSet> list = hospitalSetService.list();
         return Result.ok(list);
     }
-/* @ApiOperation(value = "逻辑删除医院设置")
- @DeleteMapping("{id}")
- public  boolean removeHospSet(@PathVariable Long id) {
-     boolean flag = hospitalSetService.removeById(id);
+     /*    @ApiOperation(value = "逻辑删除医院设置")
+         @DeleteMapping("{id}")
+         public  boolean removeHospSet(@PathVariable Long id) {
+             boolean flag = hospitalSetService.removeById(id);
 
-         return  flag;
-     }
- }*/
+                 return  flag;
+             }
+         }*/
     //2 逻辑删除医院设置
     @ApiOperation(value = "逻辑删除医院设置")
     @DeleteMapping("{id}")
@@ -65,7 +65,10 @@ public class HospitalSetController {
         }
     }
 
-    //3 条件查询带分页
+    //3 条件查询带分页、
+
+
+    @ApiOperation(value = "分页所有医院设置")
     @PostMapping("findPageHospSet/{current}/{limit}")
     public Result findPageHospSet(@PathVariable long current,
                                   @PathVariable long limit,
@@ -90,8 +93,8 @@ public class HospitalSetController {
         return Result.ok(pageHospitalSet);
     }
 
-    //4 添加医院设置
- /*   @PostMapping("saveHospitalSet")
+    /*//4 添加医院设置
+    @PostMapping("saveHospitalSet")
     public Result saveHospitalSet(@RequestBody HospitalSet hospitalSet) {
         //设置状态 1 使用 0 不能使用
         hospitalSet.setStatus(1);
@@ -105,9 +108,10 @@ public class HospitalSetController {
         } else {
             return Result.fail();
         }
-    }*/
-
+    }
+*/
     //5 根据id获取医院设置
+    @ApiOperation(value = "根据id获取医院设置")
     @GetMapping("getHospSet/{id}")
     public Result getHospSet(@PathVariable Long id) {
 //        try {
@@ -122,6 +126,7 @@ public class HospitalSetController {
     }
 
     //6 修改医院设置
+    @ApiOperation(value = "修改医院设置")
     @PostMapping("updateHospitalSet")
     public Result updateHospitalSet(@RequestBody HospitalSet hospitalSet) {
         boolean flag = hospitalSetService.updateById(hospitalSet);
@@ -133,6 +138,7 @@ public class HospitalSetController {
     }
 
     //7 批量删除医院设置
+    @ApiOperation(value = "批量删除医院设置")
     @DeleteMapping("batchRemove")
     public Result batchRemoveHospitalSet(@RequestBody List<Long> idList) {
         hospitalSetService.removeByIds(idList);
