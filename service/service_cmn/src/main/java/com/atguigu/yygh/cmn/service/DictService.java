@@ -10,8 +10,8 @@ import java.util.List;
 
 public interface DictService extends IService<Dict> {
 
-    //根据数据id查询子数据列表
-    List<Dict> findChlidData(Long id);
+    //根据数据id查询子数据列表     抽象方法
+    List<Dict> findChildData(Long id);
 
     //导出数据字典接口
     void exportDictData(HttpServletResponse response);
@@ -19,9 +19,9 @@ public interface DictService extends IService<Dict> {
     //导入数据字典
     void importDictData(MultipartFile file);
 
-    //根据dictcode和value查询
+    /*//根据dictcode和value查询
     String getDictName(String dictCode, String value);
 
     //根据dictCode获取下级节点
-    List<Dict> findByDictCode(String dictCode);
+    List<Dict> findByDictCode(String dictCode);*/
 }

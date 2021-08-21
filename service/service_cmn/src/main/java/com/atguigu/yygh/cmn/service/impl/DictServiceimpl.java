@@ -1,11 +1,14 @@
 package com.atguigu.yygh.cmn.service.impl;
 
 
+import com.alibaba.excel.EasyExcel;
+import com.atguigu.yygh.cmn.listener.DictListener;
 import com.atguigu.yygh.cmn.mapper.DictMapper;
 import com.atguigu.yygh.cmn.service.DictService;
 import com.atguigu.yygh.model.cmn.Dict;
 import com.atguigu.yygh.model.hosp.HospitalSet;
 
+import com.atguigu.yygh.vo.cmn.DictEeVo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.swagger.annotations.Api;
@@ -23,12 +26,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements DictService {
+public class DictServiceimpl extends ServiceImpl<DictMapper, Dict> implements DictService {
 
     //根据数据id查询子数据列表
     @Override
-    //@Cacheable(value = "dict",keyGenerator = "keyGenerator")
-    public List<Dict> findChlidData(Long id) {
+    @Cacheable(value = "dict",keyGenerator = "keyGenerator")
+    public List<Dict> findChildData(Long id) {
         QueryWrapper<Dict> wrapper = new QueryWrapper<>();
         wrapper.eq("parent_id",id);
         List<Dict> dictList = baseMapper.selectList(wrapper);
@@ -40,18 +43,16 @@ class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements DictServi
         }
         return dictList;
     }
+        //判断id下面是否有子节点
+        private boolean isChildren(Long id) {
+            QueryWrapper<Dict> wrapper = new QueryWrapper<>();
+            wrapper.eq("parent_id",id);
+            Integer count = baseMapper.selectCount(wrapper);
+            // 0>0    1>0
+            return count>0;
+        }
 
-    @Override
-    public void exportDictData(HttpServletResponse response) {
-
-    }
-
-    @Override
-    public void importDictData(MultipartFile file) {
-
-    }
-
-    /*//导出数据字典接口
+    //导出数据字典接口
     @Override
     public void exportDictData(HttpServletResponse response) {
         //设置下载信息
@@ -87,9 +88,9 @@ class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements DictServi
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
-    //根据dictcode和value查询
+/*    //根据dictcode和value查询
     @Override
     public String getDictName(String dictCode, String value) {
         //如果dictCode为空，直接根据value查询
@@ -109,9 +110,9 @@ class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements DictServi
                     .eq("value", value));
             return finalDict.getName();
         }
-    }
+    }*/
 
-    //根据dictCode获取下级节点
+/*    //根据dictCode获取下级节点
     @Override
     public List<Dict> findByDictCode(String dictCode) {
         //根据dictcode获取对应id
@@ -126,14 +127,7 @@ class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements DictServi
         wrapper.eq("dict_code",dictCode);
         Dict codeDict = baseMapper.selectOne(wrapper);
         return codeDict;
-    }
+    }*/
 
-    //判断id下面是否有子节点
-    private boolean isChildren(Long id) {
-        QueryWrapper<Dict> wrapper = new QueryWrapper<>();
-        wrapper.eq("parent_id",id);
-        Integer count = baseMapper.selectCount(wrapper);
-        // 0>0    1>0
-        return count>0;
-    }
+
 }
